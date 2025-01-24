@@ -1,3 +1,4 @@
 {
-  "description": "FTP services"
+  "description": "FTP services",
+  "curlib": "&CURLIB"
 }
