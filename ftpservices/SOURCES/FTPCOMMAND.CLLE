@@ -1,0 +1,13 @@
+             PGM        PARM(&MACHINE &SRCF)
+
+             DCL        VAR(&SRCF) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&MACHINE) TYPE(*CHAR) LEN(32)
+
+
+             OVRDBF     FILE(INPUT) TOFILE(&SRCF) MBR(IN) OVRSCOPE(*CALLLVL)
+             OVRDBF     FILE(OUTPUT) TOFILE(&SRCF) MBR(OUT) OVRSCOPE(*CALLLVL)
+
+             FTP        RMTSYS(&MACHINE)
+
+             DLTOVR     FILE(*ALL)
+             ENDPGM
