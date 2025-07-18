@@ -3,7 +3,7 @@ ctl-opt nomain;
 
 dcl-f ftpcmd usage(*output) rename(ftpcmd:ftpcmdf) usropn;
 
-dcl-pr ECRITURE_SCRIPT_FTP;
+dcl-pr writeScriptFtpIn;
   USER Char(10);
   MDP Char(10);
   Nom_Objet char(128);
@@ -11,8 +11,8 @@ dcl-pr ECRITURE_SCRIPT_FTP;
   CHEMIN_destination Char(256);
 End-Pr;
 
-dcl-proc ECRITURE_SCRIPT_FTP export;
-  dcl-pi ECRITURE_SCRIPT_FTP;
+dcl-proc writeScriptFtpIn export;
+  dcl-pi writeScriptFtpIn;
     l_USER Char(10);
     l_MDP Char(10);
     l_Nom_Objet char(128);
