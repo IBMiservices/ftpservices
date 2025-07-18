@@ -1,0 +1,884 @@
+<link rel="stylesheet" href="../css/iledocs.css" />
+<div class="iledocs">
+
+<div class="iledocs-page-toc">
+<h3>Sections</h3>
+<ol>
+<li><a href="basics.html">Basics</a></li>
+<li><a href="constants.html">Constants</a></li>
+<li><a href="variables.html">Variables</a></li>
+<li><a href="serializer.html">Serializer</a></li>
+<li><a href="sql.html">SQL</a></li>
+<li><a href="data-bif.html">Generator and Parser</a></li>
+</ol>
+</div>
+<div class="iledocs-toc-gap">&nbsp;</div>
+
+<div class="iledocs-page">
+<h2>SQL</h2>
+
+
+
+
+<h3>Procedures</h3>
+<table class="iledocs-table">
+
+<tr>
+<td><a href="#proc_jx_sqlCall">jx_sqlCall</a></td><td>SQL : Call stored procedure</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlCallNode">jx_sqlCallNode</a></td><td>SQL : Call stored procedure (noxDB nodes)</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlClose">jx_sqlClose</a></td><td>SQL : Close SQL cursor</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlCode">jx_sqlCode</a></td><td>SQL : Get last SQL code</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlColumns">jx_sqlColumns</a></td><td>SQL : Get number of result set columns</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlCommit">jx_sqlCommit</a></td><td>SQL : Commit</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlConnect">jx_sqlConnect</a></td><td>SQL : Connect</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlDisconnect">jx_sqlDisconnect</a></td><td>SQL : Disconnect</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlExec">jx_sqlExec</a></td><td>SQL : Execute SQL statement</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlFetchNext">jx_sqlFetchNext</a></td><td>SQL : Fetch next row</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlFetchRelative">jx_sqlFetchRelative</a></td><td>SQL : Fetch row at position n</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlGetInsertId">jx_sqlGetInsertId</a></td><td>SQL : Get last generated id</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlGetMeta">jx_sqlGetMeta</a></td><td>SQL : Get column meta data</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlInsert">jx_sqlInsert</a></td><td>SQL : Insert row</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlOpen">jx_sqlOpen</a></td><td>SQL : Open SQL cursor</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlResultRow">jx_sqlResultRow</a></td><td>SQL : Execute SQL statement (single row)</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlResultSet">jx_sqlResultSet</a></td><td>SQL : Execute SQL statement (multiple rows)</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlRollback">jx_sqlRollback</a></td><td>SQL : Rollback</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlRows">jx_sqlRows</a></td><td>SQL : Get number of result set rows</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlSetOptions">jx_sqlSetOptions</a></td><td>SQL : Set SQL options</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlStartTransaction">jx_sqlStartTransaction</a></td><td>SQL : Start transaction</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlUpdate">jx_sqlUpdate</a></td><td>SQL : Update row</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_sqlUpsert">jx_sqlUpsert</a></td><td>SQL : Upsert row</td>
+</tr>
+
+</table>
+<hr/>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlCall">jx_sqlCall</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_sqlCall</span> (
+Pointer procedureName, Pointer inputParms)
+</code>
+<p>Calls a SQL stored procedure with the passed parameters.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Qualified SQL procedure name</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; noxDB object tree with input parameters</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; noxDB object tree with output parameters<h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">The caller of this procedure needs to take care of freeing the resources of the returned noxDB object tree by calling <em>jx_close(node)</em>.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlCallNode">jx_sqlCallNode</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Boolean</span>
+<span class="iledocs-code-name">jx_sqlCallNode</span> (
+Pointer procedureName, Pointer parm01, Pointer parm02, Pointer parm03, Pointer parm04, Pointer parm05, Pointer parm06, Pointer parm07, Pointer parm08, Pointer parm09, Pointer parm10)
+</code>
+<p>Calls a SQL stored procedure with the passed parameters. The passed 
+parameters are either JSON or XML strings or noxDB object trees. Passing 
+object trees to the stored procedure lets you use these object trees 
+directly in the stored procedure. A passed string will be parsed into 
+a new noxDB object tree.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Qualified SQL procedure name</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; JSON or XML strings or noxDB object tree</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; JSON or XML strings or noxDB object tree</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; JSON or XML strings or noxDB object tree</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; JSON or XML strings or noxDB object tree</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; JSON or XML strings or noxDB object tree</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; JSON or XML strings or noxDB object tree</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; JSON or XML strings or noxDB object tree</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; JSON or XML strings or noxDB object tree</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; JSON or XML strings or noxDB object tree</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; JSON or XML strings or noxDB object tree</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Boolean
+
+</span>
+</code>
+ &mdash; <code>*on</code> if an error occured else <code>*off</code><h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">The caller of this procedure needs to take care of freeing the resources of the returned noxDB object tree by calling <em>jx_close(node)</em>.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlClose">jx_sqlClose</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_sqlClose</span> (
+Pointer handle)
+</code>
+<p>Closes the passed SQL cursor.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+</code>
+ &mdash; SQL handle</li>
+</ol>
+<h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">This function needs to be called for every SQL cursor opened with <code>jx_sqlOpen</code>.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlCode">jx_sqlCode</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Integer</span>
+<span class="iledocs-code-name">jx_sqlCode</span> (
+)
+</code>
+<p>Returns the SQL code for the previous executed statement.</p>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Integer (10) 
+
+</span>
+</code>
+ &mdash; SQL Code or 0 if no SQL statement was previously executed
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlColumns">jx_sqlColumns</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Integer</span>
+<span class="iledocs-code-name">jx_sqlColumns</span> (
+Pointer handle)
+</code>
+<p>Returns the number of columns included in the result set.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; SQL handle</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Integer (10) 
+
+</span>
+</code>
+ &mdash; Number of columns or -1 if an error occured
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlCommit">jx_sqlCommit</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Boolean</span>
+<span class="iledocs-code-name">jx_sqlCommit</span> (
+)
+</code>
+<p>Commits the current transaction.</p>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Boolean
+
+</span>
+</code>
+ &mdash; <code>*on</code> if an error occured else <code>*off</code>
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlConnect">jx_sqlConnect</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_sqlConnect</span> (
+Pointer parms)
+</code>
+<p>Returns a connection object to the local database.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Options (not supported at the moment)</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Connection to local database
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlDisconnect">jx_sqlDisconnect</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_sqlDisconnect</span> (
+)
+</code>
+<p>Disconnects the current database connection.</p>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlExec">jx_sqlExec</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Boolean</span>
+<span class="iledocs-code-name">jx_sqlExec</span> (
+Pointer statement, Pointer parms)
+</code>
+<p>Executes any SQL statement not involving a cursor.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; SQL statement</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Template values (context)</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Boolean
+
+</span>
+</code>
+ &mdash; <code>*on</code> if an error occured else <code>*off</code>
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlFetchNext">jx_sqlFetchNext</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_sqlFetchNext</span> (
+Pointer handle)
+</code>
+<p>Returns the next row from the SQL data.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; SQL handle</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Row object or <code>*null</code> if there are no more rows to fetch
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlFetchRelative">jx_sqlFetchRelative</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_sqlFetchRelative</span> (
+Pointer handle, Integer fromRow)
+</code>
+<p>Returns the next row from the SQL data relative to the current cursor position.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; SQL handle</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Integer (10)</span>
+ [value]</code>
+ &mdash; Additional offset (relative to the current cursor)</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Row object or <code>*null</code> if there are no more rows to fetch
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlGetInsertId">jx_sqlGetInsertId</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Integer</span>
+<span class="iledocs-code-name">jx_sqlGetInsertId</span> (
+)
+</code>
+<p>Returns the last generated id (f. e. id of identity columns).</p>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Integer (20) 
+
+</span>
+</code>
+ &mdash; Last generated id or 0 if there was no INSERT statement previously executed
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlGetMeta">jx_sqlGetMeta</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_sqlGetMeta</span> (
+Pointer statement)
+</code>
+<p>Returns an object tree (array) with column meta data. The returned array 
+contains one element for each column. This element (object tree) contains 
+the following attributes: 
+<ul> 
+<li>name : column name</li> 
+<li>datatype : SQL datatype name (like int, varchar, timestamp)</li> 
+<li>sqltype : SQL datatype id (like 4 for int)</li> 
+<li>size : max. number of characters (not bytes)</li> 
+<li>header : column label</li> 
+</ul></p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; SQL SELECT statement with the columns to be queried</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Object tree (array) with column meta data<h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">The caller of this procedure needs to take care of freeing the resources of the returned noxDB object tree by calling <em>jx_close(node)</em>.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlInsert">jx_sqlInsert</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Boolean</span>
+<span class="iledocs-code-name">jx_sqlInsert</span> (
+Pointer table, Pointer row, Pointer parms)
+</code>
+<p>Executes an INSERT where the row is defined as an object tree.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; SQL table name</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Row data as either object tree or JSON or XML string</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Input parameter (don't have to pass anything as it is not needed on INSERT)</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Boolean
+
+</span>
+</code>
+ &mdash; <code>*on</code> if an error occured else <code>*off</code>
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlOpen">jx_sqlOpen</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_sqlOpen</span> (
+Pointer statement, Pointer templateValues, Integer formatOptions)
+</code>
+<p>Opens a cursor for processing the SQL data row by row.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; SQL statement</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Template values (context)</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Integer (10)</span>
+ [value, nopass]</code>
+ &mdash; Result set format options</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; SQL handle<h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">Any opened cursor needs to be closed with <code>jx_sqlClose</code>.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlResultRow">jx_sqlResultRow</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_sqlResultRow</span> (
+Pointer statement, Pointer templateValues, Integer formatOptions)
+</code>
+<p>Returns an object node with one (first) resulting row for the SQL statment.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; SQL statement</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Template values (context)</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Integer (10)</span>
+ [value, nopass]</code>
+ &mdash; Result set format options</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Result set or <code>*null</code> if the SELECT returns no rows
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlResultSet">jx_sqlResultSet</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_sqlResultSet</span> (
+Pointer statement, Integer start, Integer maxRows, Integer formatOptions, Pointer templateValues)
+</code>
+<p>Executes the statement and returns the result set. The result set 
+structure depends on the passed options.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; SQL statement</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Integer (10)</span>
+ [value, nopass]</code>
+ &mdash; Start ( 1 = first (default) )</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Integer (10)</span>
+ [value, nopass]</code>
+ &mdash; Max. number of rows (default: JX_ALLROWS)</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Integer (10)</span>
+ [value, nopass]</code>
+ &mdash; Result set format options</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Template values (context)</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Result set
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlRollback">jx_sqlRollback</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Boolean</span>
+<span class="iledocs-code-name">jx_sqlRollback</span> (
+)
+</code>
+<p>Rollbacks the current transaction.</p>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Boolean
+
+</span>
+</code>
+ &mdash; <code>*on</code> if an error occured else <code>*off</code>
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlRows">jx_sqlRows</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Integer</span>
+<span class="iledocs-code-name">jx_sqlRows</span> (
+Pointer handle)
+</code>
+<p>Returns the number of rows the SQL statement used by the SQL handle will 
+return in total.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; SQL handle</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Integer (10) 
+
+</span>
+</code>
+ &mdash; Number of rows or -1 if an error occured<h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">This will run a hidden "select count(*)" which might be a little pricy.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlSetOptions">jx_sqlSetOptions</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_sqlSetOptions</span> (
+Pointer options)
+</code>
+<p>This needs to be the first call if any SQL options need to be set. 
+Supported SQL options are: 
+ 
+<h4>upperCaseColName</h4> 
+<em>true</em> means that the column names in the result set are in upper 
+case. Default: false. 
+ 
+<h4>autoParseContent</h4> 
+<em>true</em> means that any JSON or XML data in columns will be parsed 
+into subobjects in the resulting object. Default: true. 
+ 
+<h4>DecimalPoint</h4> 
+The value of this option is used as a decimal point. 
+ 
+<h4>sqlNaming</h4> 
+<em>true</em> means that SQL Naming is used and any non qualified tables 
+are searched in the current schema. <em>false</em> means that system naming 
+is used and the tables are searched in the library list.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Object tree or JSON string containing SQL options or <code>*null</code> to use the default options</li>
+</ol>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlStartTransaction">jx_sqlStartTransaction</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Boolean</span>
+<span class="iledocs-code-name">jx_sqlStartTransaction</span> (
+)
+</code>
+<p>Starts a new transaction. If commitment control has not been started yet 
+it will be started now. The transaction will end on either commit or 
+rollback.</p>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Boolean
+
+</span>
+</code>
+ &mdash; <code>*on</code> if an error occured else <code>*off</code><h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">Transaction Isolation Level (Scope) will be REPEATABLE READ.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlUpdate">jx_sqlUpdate</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Boolean</span>
+<span class="iledocs-code-name">jx_sqlUpdate</span> (
+Pointer table, Pointer rowData, Pointer where, Pointer whereInputParms)
+</code>
+<p>Executes an UPDATE TABLE where the row is defined as an object tree.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; SQL table name</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Row data as either object tree or JSON or XML string</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; SQL WHERE clause (may include template variables like WHERE id = $id)</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Input parameter object tree for SQL WHERE clause template variables (f. e. { "id" : 123 } )</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Boolean
+
+</span>
+</code>
+ &mdash; <code>*on</code> if an error occured else <code>*off</code>
+<h3 class="iledocs-procedure-header"><a name="proc_jx_sqlUpsert">jx_sqlUpsert</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Boolean</span>
+<span class="iledocs-code-name">jx_sqlUpsert</span> (
+Pointer table, Pointer row, Pointer where)
+</code>
+<p>Executes an UPDATE TABLE where the row is defined as an object tree if 
+the table contains a row matching the passed WHERE clause. If the table 
+does not contain any matching row the passed row will be INSERTed into 
+the table.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; SQL table name</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Row data as either object tree or JSON or XML string</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Input parameter (don't have to pass anything as it is not needed on INSERT)</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Boolean
+
+</span>
+</code>
+ &mdash; <code>*on</code> if an error occured else <code>*off</code><h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">Depending on the WHERE clause more than one row may be updated by this function.</div>
+
+
+</div>
+</div>

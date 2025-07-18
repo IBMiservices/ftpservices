@@ -1,0 +1,9 @@
+{
+    "title" : "<%= config.title %>",
+    "items" : [
+    <% for (var i = 0; i < sections.length; i++) { _%>
+        { "href" : "<%= sections[i].config.id %>.<%= outputSuffix %>" , "title" : "<%= sections[i].config.name %>" } <%_ _%>
+        <%_ if (i < sections.length -1) { %> , <% } %>
+    <% } _%>
+    ]
+}

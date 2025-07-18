@@ -1,0 +1,6 @@
+<h3>Sections</h3>
+<ol>
+<% for (const s of sections) { _%>
+    <li><a href="<%= s.config.id %>.<%= outputSuffix %>"><%= s.config.name %></a></li>
+<% } _%>
+</ol>

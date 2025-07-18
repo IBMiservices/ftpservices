@@ -1,0 +1,3519 @@
+<link rel="stylesheet" href="../css/iledocs.css" />
+<div class="iledocs">
+
+<div class="iledocs-page-toc">
+<h3>Sections</h3>
+<ol>
+<li><a href="basics.html">Basics</a></li>
+<li><a href="constants.html">Constants</a></li>
+<li><a href="variables.html">Variables</a></li>
+<li><a href="serializer.html">Serializer</a></li>
+<li><a href="sql.html">SQL</a></li>
+<li><a href="data-bif.html">Generator and Parser</a></li>
+</ol>
+</div>
+<div class="iledocs-toc-gap">&nbsp;</div>
+
+<div class="iledocs-page">
+<h2>Basics</h2>
+
+noxDB is an open source framework that makes it easy to work with XML, JSON 
+and SQL with one single approach - from within RPG. 
+ 
+<h5>Node path expression</h5> 
+As noxDB is an object graph you can access its nodes via a node path expression 
+similar to XML XPath. noxDB supports a slash ( / ) or a dot ( . ) as a delimiter 
+for the nodes. 
+<p> 
+<code>/customer/name</code>  is the same expression as  <code>customer.name</code> 
+</p> 
+The current node can be accessed by passing either '' (empty string) or 
+<code>*null</code> to the function. 
+<p> 
+Array elements can be access by using a bracket syntax like 
+<code>/customer/address[0]/street</code>. 
+</p> 
+The last element of an array can be retrieved by using the reserved word 
+<code>UBOUND</code> like this <code>/customer/address[UBOUND]</code>. 
+</p> 
+Functions will do nothing if the node to work on is </code>*null</code> 
+or source or destination is <code>*null</code>. If the function should 
+return anything <code>*null</code> is returned. 
+ 
+<h5>SQL functions</h5> 
+ 
+If the function returns a boolean value indicating success or error in 
+case of an error the function <em>jx_message</em> returns the SQL error 
+message. 
+ 
+<h5>CCSID</h5> 
+ 
+To make sure that the parsers use the correct delimiters regardless of the 
+CCSID at compile time of the service program always use 
+<em>jx_setDelimiters(JX_DELIMITERS)</em> 
+before using the parser.
+
+
+
+
+<h3>Procedures</h3>
+<table class="iledocs-table">
+
+<tr>
+<td><a href="#proc_jx_arrayAppend">jx_arrayAppend</a></td><td>Push array nodes into array</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_arrayPush">jx_arrayPush</a></td><td>Push node into array</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_arraySlice">jx_arraySlice</a></td><td>Slice array</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_arraySort">jx_arraySort</a></td><td>Sort array</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_clear">jx_clear</a></td><td>Clear array / object</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_close">jx_close</a></td><td>Close object tree</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_copyValue">jx_copyValue</a></td><td>Copy node value</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_delete">jx_delete</a></td><td>Delete node</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_documentInsert">jx_documentInsert</a></td><td>Move node into object tree</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_dump">jx_dump</a></td><td>Dump object tree</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_error">jx_error</a></td><td>Check error</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_forEach">jx_forEach</a></td><td>Iterate</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getAttrFirst">jx_getAttrFirst</a></td><td>Get first attribute</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getAttrName">jx_getAttrName</a></td><td>Get attribute name</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getAttrNext">jx_getAttrNext</a></td><td>Get next attribute</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getAttrValue">jx_getAttrValue</a></td><td>Get attribute value</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getBool">jx_getBool</a></td><td>Get boolean value by expression</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getChild">jx_getChild</a></td><td>Get child node</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getDate">jx_getDate</a></td><td>Get date value by expression</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getDelimiters">jx_getDelimiters</a></td><td>Get delimiters</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getInt">jx_getInt</a></td><td>Get integer value by expression</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getLength">jx_getLength</a></td><td>Get length</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getMessageObject">jx_getMessageObject</a></td><td>Get error object</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getName">jx_getName</a></td><td>Get node name</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getNameAsPath">jx_getNameAsPath</a></td><td>Get path expression of node</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getNext">jx_getNext</a></td><td>Get sibling node</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getNodeAttrValue">jx_getNodeAttrValue</a></td><td>Get attribute value from node</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getNum">jx_getNum</a></td><td>Get decimal value by expression</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getParent">jx_getParent</a></td><td>Get parent node</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getStr">jx_getStr</a></td><td>Get string value by expression</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getStrJoin">jx_getStrJoin</a></td><td>Join array nodes to string</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getTime">jx_getTime</a></td><td>Get time value by expression</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getTimeStamp">jx_getTimeStamp</a></td><td>Get timestamp value by expression</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getValueInt">jx_getValueInt</a></td><td>Get integer value</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getValueNum">jx_getValueNum</a></td><td>Get decimal value</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getValuePtr">jx_getValuePtr</a></td><td>Get pointer value</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_getValueStr">jx_getValueStr</a></td><td>Get string value</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_has">jx_has</a></td><td>Has node</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_httpRequest">jx_httpRequest</a></td><td>Execute HTTP request</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_isLiteral">jx_isLiteral</a></td><td>Is literal</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_isNode">jx_isNode</a></td><td>Is node</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_isNull">jx_isNull</a></td><td>Is null</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_isTrue">jx_isTrue</a></td><td>Is node value true</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_joblog">jx_joblog</a></td><td>Log message</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_locate">jx_locate</a></td><td>Locate node</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_locateOrCreate">jx_locateOrCreate</a></td><td>Locate or create node</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_lookupValue">jx_lookupValue</a></td><td>Lookup value</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_memLeak">jx_memLeak</a></td><td>Detect memory leak</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_memStat">jx_memStat</a></td><td>Print memory statistics</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_memUse">jx_memUse</a></td><td>Memory used</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_merge">jx_merge</a></td><td>Merge node</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_mergeObjects">jx_mergeObjects</a></td><td>Merge objects</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_message">jx_message</a></td><td>Get error description</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_moveObjectInto">jx_moveObjectInto</a></td><td>Move object into</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_newArray">jx_newArray</a></td><td>Create array</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_newObject">jx_newObject</a></td><td>Create object tree</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_nodeAdd">jx_nodeAdd</a></td><td>Add node</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_nodeCheckSum">jx_nodeCheckSum</a></td><td>Create checksum of tree</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_nodeClone">jx_nodeClone</a></td><td>Clone node</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_nodeCopy">jx_nodeCopy</a></td><td>Copy node</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_nodeDelete">jx_nodeDelete</a></td><td>Delete node</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_nodeRename">jx_nodeRename</a></td><td>Rename node</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_nodeSanitize">jx_nodeSanitize</a></td><td>Sanitize node</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_nodeType">jx_nodeType</a></td><td>Get node type</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_nodeUnlink">jx_nodeUnlink</a></td><td>Unlink node from tree</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_parseFile">jx_parseFile</a></td><td>Parse file</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_parseString">jx_parseString</a></td><td>Parse string</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_parseStringCcsid">jx_parseStringCcsid</a></td><td>Parse string</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_set">jx_set</a></td><td>Set value</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_setAttrValue">jx_setAttrValue</a></td><td>Append new attibute</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_setBool">jx_setBool</a></td><td>Set boolean value</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_setDate">jx_setDate</a></td><td>Set date value</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_setDecPoint">jx_setDecPoint</a></td><td>Set decimal separator</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_setDelimiters">jx_setDelimiters</a></td><td>Set delimiters</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_setDelimitersByCcsid">jx_setDelimitersByCcsid</a></td><td>Set delimiters (CCSID)</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_setEval">jx_setEval</a></td><td>Set expression as node value</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_setInt">jx_setInt</a></td><td>Set integer value</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_setIterator">jx_setIterator</a></td><td>Create iterator</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_setNodeAttrValue">jx_setNodeAttrValue</a></td><td>Set attribute on node</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_setNodeOptions">jx_setNodeOptions</a></td><td>Set node options</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_setNull">jx_setNull</a></td><td>Set node with null value</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_setNum">jx_setNum</a></td><td>Set decimal value</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_setProcPtr">jx_setProcPtr</a></td><td>Set procedure pointer as value</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_setPtr">jx_setPtr</a></td><td>Set value by pointer</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_setRecursiveIterator">jx_setRecursiveIterator</a></td><td>Create recursive iterator</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_setStr">jx_setStr</a></td><td>Set string value</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_setTime">jx_setTime</a></td><td>Set time value</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_setTimeStamp">jx_setTimeStamp</a></td><td>Set timestamp value</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_setTraceProc">jx_setTraceProc</a></td><td>Set trace procedure</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_setValue">jx_setValue</a></td><td>Set value</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_stream">jx_stream</a></td><td>Create stream</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_successTrue">jx_successTrue</a></td><td>Get success object</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_traceSetId">jx_traceSetId</a></td><td>SQL : Set trace id</td>
+</tr>
+
+</table>
+<hr/>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_arrayAppend">jx_arrayAppend</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_arrayAppend</span> (
+Pointer destination, Pointer source, UnsignedInteger pushMode)
+</code>
+<p>Appends all nodes from one array to another array.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Destination array (to)</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Source array (from)</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+UnsignedInteger (5)</span>
+ [value, nopass]</code>
+ &mdash; Push operation mode (JX_MOVE_UNLINK (default) or JX_COPY_CLONE)</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Destination array
+<h3 class="iledocs-procedure-header"><a name="proc_jx_arrayPush">jx_arrayPush</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_arrayPush</span> (
+Pointer array, Pointer node, UnsignedInteger pushMode)
+</code>
+<p>Appends the passed node/value to the array. The node can either be an noxDB 
+object tree or a string. If a string is passed and it is a JSON expression 
+(starting with { or [) it will be parsed else the string will be appended to 
+the array as it.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Array</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Node to be appended to the end of the array</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+UnsignedInteger (5)</span>
+ [value, nopass]</code>
+ &mdash; Push operation mode (JX_MOVE_UNLINK (default) or JX_COPY_CLONE)</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; New node added to the end of the array
+<h3 class="iledocs-procedure-header"><a name="proc_jx_arraySlice">jx_arraySlice</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_arraySlice</span> (
+Pointer array, Integer from, Integer to, UnsignedInteger copyMode)
+</code>
+<p>Removes nodes from an array. The node specified on the "to" parameter is 
+included (also removed).</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Array or JSON array string</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Integer (10)</span>
+ [value]</code>
+ &mdash; From index (1-based)</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Integer (10)</span>
+ [value]</code>
+ &mdash; To index (-1 = all nodes from "from" index to till the end)</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+UnsignedInteger (5)</span>
+ [value, nopass]</code>
+ &mdash; Copy operation mode. JX_MOVE_UNLINK (default) removes the "sliced" nodes from the source array. JX_COPY_CLONE leaves the nodes in the source array and just copies the nodes to the new array.</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; New array with the "sliced" nodes
+<h3 class="iledocs-procedure-header"><a name="proc_jx_arraySort">jx_arraySort</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_arraySort</span> (
+Pointer array, Pointer keyNames, UnsignedInteger compareOptions)
+</code>
+<p>Sorts the array nodes "in place".</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Array</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Object attributes to compare</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+UnsignedInteger (5)</span>
+ [value, nopass]</code>
+ &mdash; Compare options (0 = use JSON numeric (default) or JX_USE_LOCALE)</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Sorted array
+<h3 class="iledocs-procedure-header"><a name="proc_jx_clear">jx_clear</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_clear</span> (
+Pointer node)
+</code>
+<p>Clears the contents of an array or object (deletes all child nodes).</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+</ol>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_close">jx_close</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_close</span> (
+Pointer node)
+</code>
+<p>Frees all resources allocated by this object tree.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+</code>
+ &mdash; Node</li>
+</ol>
+<h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">The passed node does not necessarily has to be the root node of the tree. Any node of the tree will suffice.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_copyValue">jx_copyValue</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_copyValue</span> (
+Pointer destNode, Pointer destName, Pointer sourceNode, Pointer sourceName)
+</code>
+<p>Copies the value of a node to an existing node. 
+<br><br> 
+If the source node is an object or array (type JX_ARRAY or JX_OBJECT) the 
+object or array will be cloned to the destination value. 
+<br><br> 
+If the source node does not exist nothing will be copied and <code>*null</code> 
+is returned. 
+<br><br> 
+If the source or destination is relative to the node the node path expression 
+can be used to specify the location.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Destination node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Destination node path expression</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Source node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Source node path expression</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; New node or <code>*null</code> if the operation could not be executed
+<h3 class="iledocs-procedure-header"><a name="proc_jx_delete">jx_delete</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_delete</span> (
+Pointer node)
+</code>
+<p>Alias for <em>jx_nodeDelete</em>.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node (<code>*null</code> will be ignored)</li>
+</ol>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_documentInsert">jx_documentInsert</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_documentInsert</span> (
+Pointer destination, Pointer source, Integer location)
+</code>
+<p>Moves a node into an existing object tree.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Destination node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+</code>
+ &mdash; Source node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Integer (10)</span>
+ [value]</code>
+ &mdash; Destination location (see Node Copy - Reference locations  )</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Destination node<h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">The source node pointer will be <code>*null</code> after this function call.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_dump">jx_dump</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_dump</span> (
+Pointer node)
+</code>
+<p>Outputs the object tree of the passed node via <em>printf</em>.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+</ol>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_error">jx_error</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Boolean</span>
+<span class="iledocs-code-name">jx_error</span> (
+Pointer node)
+</code>
+<p>Checks if the last operation resulted in an error.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Boolean
+
+</span>
+</code>
+ &mdash; *on if the last operation resulted in an error else *off
+<h3 class="iledocs-procedure-header"><a name="proc_jx_forEach">jx_forEach</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Boolean</span>
+<span class="iledocs-code-name">jx_forEach</span> (
+jx_iterator iterator)
+</code>
+<p>Iterates through the child nodes of the iterator start node. The entries 
+are either the entries of an array or the keys of an object depending on 
+the start node. 
+<br><br> 
+The current value (iterator.this) and some additional information (isFirst, 
+isLast, ...) can be retrieved from the iterator data structure. 
+<br><br> 
+The iteration can be interrupted either by leaving the loop or by setting 
+iterator.break to *on.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Data Structure jx_iterator</span>
+</code>
+ &mdash; Iterator</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Boolean
+
+</span>
+</code>
+ &mdash; *on if there is another entry , *off if the iteration ended
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getAttrFirst">jx_getAttrFirst</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_getAttrFirst</span> (
+Pointer node,  )
+</code>
+<p>Returns the first attribute of the attribute list of the passed node. 
+This can be used for iterating over the attributes of a node in 
+conjunction with the function <em>jx_getAttrNext</em>.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+</span>
+</code>
+</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getAttrName">jx_getAttrName</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Varchar</span>
+<span class="iledocs-code-name">jx_getAttrName</span> (
+Pointer attribute)
+</code>
+<p>Returns the name of the passed attribute.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Attribute</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Varchar (32767) 
+
+</span>
+</code>
+ &mdash; Attribute name
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getAttrNext">jx_getAttrNext</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_getAttrNext</span> (
+Pointer attribute)
+</code>
+<p>Returns the next attribute of the attribute list.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Attribute</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Next attribute or <code>*null</code> if there are no more attributes
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getAttrValue">jx_getAttrValue</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Varchar</span>
+<span class="iledocs-code-name">jx_getAttrValue</span> (
+Pointer attribute, Pointer defaultValue)
+</code>
+<p>Returns the value from the passed attribute.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Attribute</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Default value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Varchar (32767) 
+
+</span>
+</code>
+ &mdash; Attribute value or default value if the attribute has no value
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getBool">jx_getBool</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Boolean</span>
+<span class="iledocs-code-name">jx_getBool</span> (
+Pointer node, Pointer nodePath, Boolean defaultValue)
+</code>
+<p>This is equivalent to <em>jx_isTrue<em> but with additional support 
+for a default value.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Node path expression (default: current node)</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Boolean</span>
+ [value, nopass]</code>
+ &mdash; Default value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Boolean
+
+</span>
+</code>
+ &mdash; Node value is not "falsy" or the default value if the node does not exist
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getChild">jx_getChild</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_getChild</span> (
+Pointer node)
+</code>
+<p>Returns the first child node of the passed node.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; First child node or <code>*null</code> if there is no child node
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getDate">jx_getDate</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Date</span>
+<span class="iledocs-code-name">jx_getDate</span> (
+Pointer node, Pointer nodePath, Date defaultValue)
+</code>
+<p>Returns the date value of the node pointed to by the passed expression.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Node path expression</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Date</span>
+ [value, nopass]</code>
+ &mdash; Default value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Date
+
+</span>
+</code>
+ &mdash; Date value or the default value if the node does not exist
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getDelimiters">jx_getDelimiters</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_getDelimiters</span> (
+)
+</code>
+<p>Returns a pointer to the used delimiters for parsing the JSON and XML data. 
+The pointer points to a data structure in the format <em>jx_DelimiterDS</em>.</p>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Pointer to the delimiters data structure (jx_DelimiterDS)<h4 class="iledocs-procedure-subheader">Warning</h4>
+<div class="iledocs-box iledocs-warning">Do not deallocate the returned pointer!</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getInt">jx_getInt</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Integer</span>
+<span class="iledocs-code-name">jx_getInt</span> (
+Pointer node, Pointer nodePath, Integer defaultValue)
+</code>
+<p>Returns the integer value of the node pointed to by the passed expression.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Node path expression (default: current node)</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Integer (20)</span>
+ [value, nopass]</code>
+ &mdash; Default value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Integer (20) 
+
+</span>
+</code>
+ &mdash; Integer value or the default value if the node does not exist
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getLength">jx_getLength</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Integer</span>
+<span class="iledocs-code-name">jx_getLength</span> (
+Pointer array)
+</code>
+<p>Returns the number of nodes in an array or object.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Integer (10) 
+
+</span>
+</code>
+ &mdash; Number of nodes or -1 if the passed node is no array or object node type.
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getMessageObject">jx_getMessageObject</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_getMessageObject</span> (
+Pointer messageId, Pointer messageData)
+</code>
+<p>Returns a new noxDB object tree with the boolean attribute "success" = false. 
+If no parameters are passed the object will contain the attribute "msg" with 
+the last error message. Otherwise the object will contain the attribute "msgId" 
+with the passed message id and "msgDta" with the passed message data.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Message id</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Message data</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; New noxDB object tree with error message<h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">The caller of this procedure needs to take care of freeing the resources of the returned noxDB object tree by calling <em>jx_close(rootNode)</em>.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getName">jx_getName</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Varchar</span>
+<span class="iledocs-code-name">jx_getName</span> (
+Pointer node)
+</code>
+<p>Returns the name of the node.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Varchar (32767) 
+
+</span>
+</code>
+ &mdash; Node name
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getNameAsPath">jx_getNameAsPath</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Varchar</span>
+<span class="iledocs-code-name">jx_getNameAsPath</span> (
+Pointer node, Char delimiter)
+</code>
+<p>Returns the node path expression for the passed node, f. e. /item/price .</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Char (1)</span>
+ [value]</code>
+ &mdash; Node path element delimiter (for example . or /)</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Varchar (32767) 
+
+</span>
+</code>
+ &mdash; Node path expression
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getNext">jx_getNext</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_getNext</span> (
+Pointer node)
+</code>
+<p>Returns the next sibling relative to the passed node. For objects that would 
+be the next attribute on the same level. For arrays that would be the next 
+element.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Sibling node or <code>*null</code> if there is sibling
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getNodeAttrValue">jx_getNodeAttrValue</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Varchar</span>
+<span class="iledocs-code-name">jx_getNodeAttrValue</span> (
+Pointer node, Pointer name, Pointer defaultValue)
+</code>
+<p>Returns the attribute value of the attribute from the passed node.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Attribute name</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Default value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Varchar (32767) 
+
+</span>
+</code>
+ &mdash; Attribute value or default value if no attriute exists
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getNum">jx_getNum</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+PackedDecimal</span>
+<span class="iledocs-code-name">jx_getNum</span> (
+Pointer node, Pointer nodePath, PackedDecimal defaultValue)
+</code>
+<p>Returns the decimal value of the node pointed to by the passed expression.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Node path expression (default: current node)</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+PackedDecimal (30)</span>
+ [value, nopass]</code>
+ &mdash; Default value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+PackedDecimal (30) 
+
+</span>
+</code>
+ &mdash; Decimal value or the default value if the node does not exist
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getParent">jx_getParent</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_getParent</span> (
+Pointer node)
+</code>
+<p>Returns the parent node.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Parent node or <code>*null</code> if the passed node is the root node
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getStr">jx_getStr</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Varchar</span>
+<span class="iledocs-code-name">jx_getStr</span> (
+Pointer node, Pointer nodePath, Pointer defaultValue)
+</code>
+<p>Returns the string value of the node pointed to by the passed expression.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Node path expression (default: current node)</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Default value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Varchar (32767) 
+
+</span>
+</code>
+ &mdash; String value or the default value if the node does not exist
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getStrJoin">jx_getStrJoin</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Varchar</span>
+<span class="iledocs-code-name">jx_getStrJoin</span> (
+Pointer node, Pointer nodePath, Pointer defaultValue)
+</code>
+<p>Joins the values of all <em>array</em> nodes to a string. 
+<br><br> 
+[12.345, "-", 6, 7, true, { "id" : 358 }] will result in the string 
+12.345-67true . Any object nodes will be ignored.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Node path expression to the array node (default: current node)</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Default value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Varchar (32767) 
+
+</span>
+</code>
+ &mdash; String with all values from the array nodes
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getTime">jx_getTime</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Time</span>
+<span class="iledocs-code-name">jx_getTime</span> (
+Pointer node, Pointer nodePath, Time defaultValue)
+</code>
+<p>Returns the time value of the node pointed to by the passed expression.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Node path expression</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Time</span>
+ [value, nopass]</code>
+ &mdash; Default value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Time
+
+</span>
+</code>
+ &mdash; Time value or the default value if the node does not exist
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getTimeStamp">jx_getTimeStamp</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Timestamp</span>
+<span class="iledocs-code-name">jx_getTimeStamp</span> (
+Pointer node, Pointer nodePath, Timestamp defaultValue)
+</code>
+<p>Returns the timestamp value of the node pointed to by the passed expression.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Node path expression</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Timestamp</span>
+ [value, nopass]</code>
+ &mdash; Default value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Timestamp
+
+</span>
+</code>
+ &mdash; Timestamp value or the default value if the node does not exist
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getValueInt">jx_getValueInt</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Integer</span>
+<span class="iledocs-code-name">jx_getValueInt</span> (
+Pointer node, Integer defaultValue)
+</code>
+<p>Returns the value of the passed node.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Integer (20)</span>
+ [value, nopass]</code>
+ &mdash; Default value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Integer (20) 
+
+</span>
+</code>
+ &mdash; Integer value or the default value (or 0) if the node does not exist
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getValueNum">jx_getValueNum</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+PackedDecimal</span>
+<span class="iledocs-code-name">jx_getValueNum</span> (
+Pointer node, PackedDecimal defaultValue)
+</code>
+<p>Returns the value of the passed node.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+PackedDecimal (30)</span>
+ [value, nopass]</code>
+ &mdash; Default value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+PackedDecimal (30) 
+
+</span>
+</code>
+ &mdash; Decimal value or the default value (or 0) if the node does not exist
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getValuePtr">jx_getValuePtr</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_getValuePtr</span> (
+Pointer node, Pointer defaultValue)
+</code>
+<p>Returns the value of the passed node.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Default value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Pointer value or the default value (or *null) if the node does not exist
+<h3 class="iledocs-procedure-header"><a name="proc_jx_getValueStr">jx_getValueStr</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Varchar</span>
+<span class="iledocs-code-name">jx_getValueStr</span> (
+Pointer node, Pointer defaultValue)
+</code>
+<p>Returns the value of the passed node.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Default value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Varchar (32767) 
+
+</span>
+</code>
+ &mdash; String value or the default value (or an empty string) if the node does not exist
+<h3 class="iledocs-procedure-header"><a name="proc_jx_has">jx_has</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Boolean</span>
+<span class="iledocs-code-name">jx_has</span> (
+Pointer node, Pointer nodePath)
+</code>
+<p>Returns <code>*on</code> if node exists.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Node path expression</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Boolean
+
+</span>
+</code>
+ &mdash; <code>*on</code> if node exists else <code>*off</code>
+<h3 class="iledocs-procedure-header"><a name="proc_jx_httpRequest">jx_httpRequest</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_httpRequest</span> (
+Pointer url, Pointer payload, Pointer options)
+</code>
+<p>Executes an HTTP request. By default it will be a GET request. If a payload 
+has been passed the payload will be serialized to a JSON string and the 
+request will automatically be a POST request. The payload will be passed 
+as unicode to cURL. 
+<br><br> 
+The returned JSON object contains the attribute "success" (either true or 
+false) and "reason" (which contains the cURL error output (to <em>stderr</em>) 
+of the request).</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; URL</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; HTTP request payload (object tree)</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Extra cURL options</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; JSON object<h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">This function uses the curl command.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_isLiteral">jx_isLiteral</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Boolean</span>
+<span class="iledocs-code-name">jx_isLiteral</span> (
+Pointer node)
+</code>
+<p>Returns <code>*on</code> if the passed node is a literal.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Boolean
+
+</span>
+</code>
+ &mdash; <code>*on</code> if node is literale else <code>*off</code>
+<h3 class="iledocs-procedure-header"><a name="proc_jx_isNode">jx_isNode</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Boolean</span>
+<span class="iledocs-code-name">jx_isNode</span> (
+Pointer node)
+</code>
+<p>Returns <code>*on</code> if the passed pointer is a valid node.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Boolean
+
+</span>
+</code>
+ &mdash; <code>*on</code> if pointer is valid node else <code>*off</code>
+<h3 class="iledocs-procedure-header"><a name="proc_jx_isNull">jx_isNull</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Boolean</span>
+<span class="iledocs-code-name">jx_isNull</span> (
+Pointer node, Pointer nodePath)
+</code>
+<p>Returns <code>*on</code> if the node does not exist or its value is 
+<code>*null</code>.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Node path expression</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Boolean
+
+</span>
+</code>
+ &mdash; <code>*on</code> if node does not exist or has <code>*null</code> value
+<h3 class="iledocs-procedure-header"><a name="proc_jx_isTrue">jx_isTrue</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Boolean</span>
+<span class="iledocs-code-name">jx_isTrue</span> (
+Pointer node, Pointer nodePath)
+</code>
+<p>Returns <code>*on</code> if node exists and has non-falsy value. 
+"falsy" values would be 
+ 
+<ul> 
+<li>null</li> 
+<li>0</li> 
+<li>false</li> 
+<li>node does not exist</li> 
+</ul></p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Node path expression</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Boolean
+
+</span>
+</code>
+ &mdash; <code>*on</code> if node value is not "falsy" else <code>*off</code>
+<h3 class="iledocs-procedure-header"><a name="proc_jx_joblog">jx_joblog</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_joblog</span> (
+Pointer textOrNode)
+</code>
+<p>Sends an info message to the job log. The passed message can either be text 
+or a node. If a node is passed it will be serialized to a JSON string before 
+being sent to the job log.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Message text or node</li>
+</ol>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_locate">jx_locate</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_locate</span> (
+Pointer node, Pointer nodePath)
+</code>
+<p>Returns the node at the passed expression.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Node path expression</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Located node or <code>*null</code> of no node is located at the passed expression
+<h3 class="iledocs-procedure-header"><a name="proc_jx_locateOrCreate">jx_locateOrCreate</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_locateOrCreate</span> (
+Pointer node, Pointer nodePath)
+</code>
+<p>Returns the node at the passed expression. If no node is located at the 
+passed expression a new node will be created at the passed path expression 
+and returned.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Node path expression</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Node at the passed path expression (either the existing one or a new one)
+<h3 class="iledocs-procedure-header"><a name="proc_jx_lookupValue">jx_lookupValue</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_lookupValue</span> (
+Pointer node, Pointer searchValue, UnsignedInteger case)
+</code>
+<p>Returns the first node which matches the passed expression.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Array or object</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Search value</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+UnsignedInteger (5)</span>
+ [value, nopass]</code>
+ &mdash; Case sensitivity (JX_SAME_CASE or JX_IGNORE_CASE)</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; First node which matches the expression else <code>*null</code><h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">The search will not be done recursivly. Only the first level (depth) of the node's content will be evaluated.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_memLeak">jx_memLeak</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Boolean</span>
+<span class="iledocs-code-name">jx_memLeak</span> (
+)
+</code>
+<p>Checks if more memory has been allocated than deallocated.</p>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Boolean
+
+</span>
+</code>
+ &mdash; <code>*on</code> = more memory allocated than deallocated else <code>*off</code>
+<h3 class="iledocs-procedure-header"><a name="proc_jx_memStat">jx_memStat</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_memStat</span> (
+)
+</code>
+<p>Prints the memory statistics to the console (printf).</p>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_memUse">jx_memUse</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+UnsignedInteger</span>
+<span class="iledocs-code-name">jx_memUse</span> (
+)
+</code>
+<p>Returns the number of bytes currently used by any noxDB object tree in the 
+current activation group.</p>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+UnsignedInteger (20) 
+
+</span>
+</code>
+ &mdash; Number of bytes used
+<h3 class="iledocs-procedure-header"><a name="proc_jx_merge">jx_merge</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_merge</span> (
+Pointer destination, Pointer source, UnsignedInteger type)
+</code>
+<p>Merges all nodes from the <em>source</em> object into the 
+<em>destination</em> object tree.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Destination</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Source</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+UnsignedInteger (5)</span>
+ [value, nopass]</code>
+ &mdash; Merge option (JX_DONTREPLACE (default) or JX_REPLACE)</li>
+</ol>
+<h4 class="iledocs-procedure-subheader">Deprecated</h4>
+<div class="iledocs-box iledocs-deprecated">Replaced by jx_mergeObjects</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_mergeObjects">jx_mergeObjects</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_mergeObjects</span> (
+Pointer destination, Pointer source, UnsignedInteger mergeOption)
+</code>
+<p>Merges all nodes from the <em>source</em> object into the <em>destination</em> 
+object tree. Objects are recursively merged. The nodes (entries) of arrays 
+are not merged. The whole array is either replaced or retained depending on 
+the options parameter. 
+<br><br> 
+The options parameter determines what happens if a node with the same name 
+exists in both object trees.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Destination object tree</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Source object tree</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+UnsignedInteger (5)</span>
+ [value]</code>
+ &mdash; Merge option (JX_DONTREPLACE or JX_REPLACE)</li>
+</ol>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_message">jx_message</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Varchar</span>
+<span class="iledocs-code-name">jx_message</span> (
+Pointer node)
+</code>
+<p>Returns the error description for the last error.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, nopass]</code>
+ &mdash; Node (omit for last error message)</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Varchar (1024) 
+
+</span>
+</code>
+ &mdash; Error description or <code>*blank</code> if no error occured
+<h3 class="iledocs-procedure-header"><a name="proc_jx_moveObjectInto">jx_moveObjectInto</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_moveObjectInto</span> (
+Pointer destination, Pointer name, Pointer source)
+</code>
+<p>Moves a <em>source</em> object into a <em>destination</em> object. If the 
+source object is no root object it will be unlinked from its current object 
+tree. The source object will be available in the destination object under 
+the passed name. 
+<br><br> 
+If no name is passed ('' or *null) then the source object replaces the 
+destination object in its current position in the object tree. 
+<br><br> 
+Any existing node with the passed name in the destination object will be 
+replaced by the source object.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Destination object</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; New node name</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Source object</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Source object<h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">The <em>name</em> parameter is <b>no</b> node path expression! It is the concrete name of the source object in the destination object.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_newArray">jx_newArray</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_newArray</span> (
+Pointer node)
+</code>
+<p>Creates a new array.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, nopass]</code>
+ &mdash; The new array node will be appended to this node.</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; New array or new node if the destination is passed<h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">The caller of this procedure needs to take care of freeing the resources of the returned noxDB object tree by calling <em>jx_close(node)</em>.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_newObject">jx_newObject</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_newObject</span> (
+Pointer destination)
+</code>
+<p>Creates a new noxDB object tree.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, nopass]</code>
+ &mdash; The new object node will be appended to this node.</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; New object tree or new node if the destination is passed<h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">The caller of this procedure needs to take care of freeing the resources of the returned noxDB object tree by calling <em>jx_close(node)</em>.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_nodeAdd">jx_nodeAdd</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_nodeAdd</span> (
+Pointer node, Integer referenceLocation, Pointer name, Pointer value, UnsignedInteger type)
+</code>
+<p>Adds new node to object tree.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Integer (10)</span>
+ [value]</code>
+ &mdash; Reference location (see Node Copy - Reference locations)</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; New node name</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; New node value (value or expression)</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+UnsignedInteger (5)</span>
+ [value]</code>
+ &mdash; New node type</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; New node
+<h3 class="iledocs-procedure-header"><a name="proc_jx_nodeCheckSum">jx_nodeCheckSum</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+UnsignedInteger</span>
+<span class="iledocs-code-name">jx_nodeCheckSum</span> (
+Pointer node)
+</code>
+<p>Creates a checksum of all node names and values. Names and values 
+of <code>*null</code> are ignored.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+UnsignedInteger (10) 
+
+</span>
+</code>
+ &mdash; Checksum
+<h3 class="iledocs-procedure-header"><a name="proc_jx_nodeClone">jx_nodeClone</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_nodeClone</span> (
+Pointer node)
+</code>
+<p>Deep clone of the passed node.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Clone of the passed node<h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">The caller of this procedure needs to take care of freeing the resources of the returned noxDB object tree by calling <em>jx_close(node)</em>.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_nodeCopy">jx_nodeCopy</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_nodeCopy</span> (
+Pointer node, Pointer sourceNode, Integer referenceLocation)
+</code>
+<p>Adds a copy of an existing node to the noxDB object tree. 
+<br><br> 
+The reference location indicates where the new node will be added relative 
+to the passed node. Possible value are 
+<ul> 
+<li>JX_FIRST_CHILD</li> 
+<li>JX_LAST_CHILD</li> 
+<li>JX_BEFORE_SIBLING</li> 
+<li>JX_AFTER_SIBLING</li> 
+</ul></p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Source node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Integer (10)</span>
+ [value]</code>
+ &mdash; Reference location</li>
+</ol>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_nodeDelete">jx_nodeDelete</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_nodeDelete</span> (
+Pointer node)
+</code>
+<p>The passed node and all child nodes are remove from the noxDB object tree. 
+The memory is freed and the pointer is set to <code>*null</code>.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node (<code>*null</code> will be ignored)</li>
+</ol>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_nodeRename">jx_nodeRename</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_nodeRename</span> (
+Pointer node, Pointer newNodeName)
+</code>
+<p>Renames the passed node.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; New node name</li>
+</ol>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_nodeSanitize">jx_nodeSanitize</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_nodeSanitize</span> (
+Pointer node)
+</code>
+<p>Nodes with <code>null</code> values or no values at all will be removed from 
+the noxDB object tree.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+</ol>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_nodeType">jx_nodeType</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Integer</span>
+<span class="iledocs-code-name">jx_nodeType</span> (
+Pointer node)
+</code>
+<p>Returns the node type of the passed node.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Integer (5) 
+
+</span>
+</code>
+ &mdash; Node type constant
+<h3 class="iledocs-procedure-header"><a name="proc_jx_nodeUnlink">jx_nodeUnlink</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_nodeUnlink</span> (
+Pointer node)
+</code>
+<p>Unlinks the passed node from the tree. The unlinked node will be promoted to 
+a new root node and functions as a new object tree.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node (<code>*null</code> will be ignored)</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Unlinked node<h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">The unlinked node is no longer connected to its former object tree and its resources must be freed with a call to <code>jx_close(unlinkedNode)</code>.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_parseFile">jx_parseFile</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_parseFile</span> (
+Pointer fileName, Pointer options)
+</code>
+<p>Parses a JSON or XML stream file. The encodings ASCII, UTF8, 1252 and 
+EBCDIC of the current job are supported.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Path to the XML or JSON file (null-terminated)</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Options are no longer supported (deprecated)</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Pointer to the root node of the noxDB object tree or <code>*null</code> if the file is not readable.
+<h3 class="iledocs-procedure-header"><a name="proc_jx_parseString">jx_parseString</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_parseString</span> (
+Pointer string, Pointer options)
+</code>
+<p>Parses a JSON or XML string.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; JSON or XML string</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Options are no longer supported (deprecated)</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Pointer to the root node of the noxDB object tree
+<h3 class="iledocs-procedure-header"><a name="proc_jx_parseStringCcsid">jx_parseStringCcsid</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_parseStringCcsid</span> (
+Pointer string, Integer ccsid)
+</code>
+<p>Parses a JSON or XML string.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; JSON or XML string</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Integer (10)</span>
+ [value]</code>
+ &mdash; CCSID of the passed string</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Pointer to the root node of the noxDB object tree
+<h3 class="iledocs-procedure-header"><a name="proc_jx_set">jx_set</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_set</span> (
+ /endif,  ,  )
+</code>
+<p>Sets the passed value to the node pointed to by the passed path expression. 
+This is an overloaded function and proxies calls to one of the following 
+functions depending on the passed parameters. 
+ 
+<ul> 
+<li>jx_setBool</li> 
+<li>jx_setNum</li> 
+<li>jx_setInt</li> 
+<li>jx_setDate</li> 
+<li>jx_setTime</li> 
+<li>jx_setTimestamp</li> 
+<li>jx_setStr</li> 
+</ul></p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+</span>
+</code>
+</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+</span>
+</code>
+</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+</span>
+</code>
+</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Changed node
+<h3 class="iledocs-procedure-header"><a name="proc_jx_setAttrValue">jx_setAttrValue</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_setAttrValue</span> (
+Pointer attribute, Pointer name, Pointer value)
+</code>
+<p>Appends a new attribute with the passed name and value to the attribute 
+list which the passed attribute is part of. Duplicate attribute names 
+are valid.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Attribute</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Name</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Value</li>
+</ol>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_setBool">jx_setBool</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_setBool</span> (
+Pointer node, Pointer nodePath, Boolean value)
+</code>
+<p>Sets the passed value to the node pointed to by the passed path expression.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Node path expression</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Boolean</span>
+ [value]</code>
+ &mdash; New value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Changed node
+<h3 class="iledocs-procedure-header"><a name="proc_jx_setDate">jx_setDate</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_setDate</span> (
+Pointer node, Pointer nodePath, Date value)
+</code>
+<p>Set the passed value to the node pointed to by the passed path expression.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Node path expression</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Date</span>
+ [const]</code>
+ &mdash; New value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Changed node
+<h3 class="iledocs-procedure-header"><a name="proc_jx_setDecPoint">jx_setDecPoint</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_setDecPoint</span> (
+Pointer decimalSeparator)
+</code>
+<p>Set , or . for decimal separator.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Decimal separator character</li>
+</ol>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_setDelimiters">jx_setDelimiters</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_setDelimiters</span> (
+Pointer delimiters)
+</code>
+<p>Sets the delimiters used for parsing the JSON and XML data. 
+For the default delimiters see constant JX_DELIMITERS.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Delimiters</li>
+</ol>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_setDelimitersByCcsid">jx_setDelimitersByCcsid</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_setDelimitersByCcsid</span> (
+Integer ccsid)
+</code>
+<p>Sets the delimiters for the selectors for parsing JSON and XML to 
+the default values translated to the passed CCSID.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Integer (10)</span>
+ [value]</code>
+ &mdash; CCSID for the selectors</li>
+</ol>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_setEval">jx_setEval</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_setEval</span> (
+Pointer node, Pointer nodePath, Pointer value)
+</code>
+<p>Sets the parsed value to the node pointed to by the passed path expression. The value will 
+be parsed to a new object tree and added to the node. If the node already contains a node 
+at the specified path the attributes of the nodes will be merged.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Node path expression</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; New string value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Changed node
+<h3 class="iledocs-procedure-header"><a name="proc_jx_setInt">jx_setInt</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_setInt</span> (
+Pointer node, Pointer nodePath, Integer value)
+</code>
+<p>Sets the passed value to the node pointed to by the passed path expression.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Node path expression</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Integer (20)</span>
+ [value]</code>
+ &mdash; New value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Changed node
+<h3 class="iledocs-procedure-header"><a name="proc_jx_setIterator">jx_setIterator</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+jx_iterator</span>
+<span class="iledocs-code-name">jx_setIterator</span> (
+Pointer node, Pointer nodePath)
+</code>
+<p>Creates a new iterator instance on the passed object tree.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Node path expression to the node which child elements will be iterated</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Data Structure jx_iterator 
+</span>
+</code>
+ &mdash; Iterator instance<h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">This iterator should be used with the function <em>jx_forEach</em></div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_setNodeAttrValue">jx_setNodeAttrValue</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_setNodeAttrValue</span> (
+Pointer node, Pointer name, Pointer value)
+</code>
+<p>Sets the attribute on the passed node. Any existing attribute value 
+will be replaced.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Attribute name</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Attribute value</li>
+</ol>
+<h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">Attributes will be omitted in JSON output.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_setNodeOptions">jx_setNodeOptions</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_setNodeOptions</span> (
+Pointer node, Integer format)
+</code>
+<p>Sets the node format options which will among other things affect how the 
+nodes will be output by the serializers.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Integer (5)</span>
+ [value]</code>
+ &mdash; Format option (JX_FORMAT_DEFAULT, JX_FORMAT_CDATA)</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_setNull">jx_setNull</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_setNull</span> (
+Pointer node, Pointer nodePath)
+</code>
+<p>Creates a node at the passed path with the value <code>*null</code>. 
+Any existing node will be replaced by this new node.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Node path expression</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; New node
+<h3 class="iledocs-procedure-header"><a name="proc_jx_setNum">jx_setNum</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_setNum</span> (
+Pointer node, Pointer nodePath, PackedDecimal value)
+</code>
+<p>Sets the passed value to the node pointed to by the passed path expression.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Node path expression</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+PackedDecimal (30)</span>
+ [value]</code>
+ &mdash; New value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Changed node
+<h3 class="iledocs-procedure-header"><a name="proc_jx_setProcPtr">jx_setProcPtr</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_setProcPtr</span> (
+Pointer node, Pointer nodePath, Pointer value, Boolean isString)
+</code>
+<p>Sets the passed value to the node pointed to by the passed path expression.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Node path expression</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+</code>
+ &mdash; Procedure pointer</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Boolean</span>
+ [value, nopass]</code>
+ &mdash; Is string (deprecated)</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Changed node<h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">Procedure pointers are not intended to be serialized.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_setPtr">jx_setPtr</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_setPtr</span> (
+Pointer node, Pointer nodePath, Pointer value, Boolean stringify)
+</code>
+<p>Set the passed value as is to the node pointed to by the passed path 
+expression.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Node path expression</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Value</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Boolean</span>
+ [value, nopass]</code>
+ &mdash; <code>*on</code> = pointer points to a string and stringifies the value (add double quotes), <code>*off</code> = contents is already formatted JSON (default) and will be added as is</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Changed node<h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">The resources of the passed value are not managed by noxDB and must be freed by the caller.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_setRecursiveIterator">jx_setRecursiveIterator</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+jx_iterator</span>
+<span class="iledocs-code-name">jx_setRecursiveIterator</span> (
+Pointer node, Pointer nodePath)
+</code>
+<p>Creates a new iterator instance on the passed object tree. This iterator 
+will not stop iterating when the end is reached but will restart at the 
+given start node.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Node path expression to the node which child elements will be iterated</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Data Structure jx_iterator 
+</span>
+</code>
+ &mdash; Iterator instance
+<h3 class="iledocs-procedure-header"><a name="proc_jx_setStr">jx_setStr</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_setStr</span> (
+Pointer node, Pointer nodePath, Pointer value)
+</code>
+<p>Sets the passed value to the node pointed to by the passed path expression.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Node path expression</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; New string value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Changed node
+<h3 class="iledocs-procedure-header"><a name="proc_jx_setTime">jx_setTime</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_setTime</span> (
+Pointer node, Pointer nodePath, Time value)
+</code>
+<p>Set the passed value to the node pointed to by the passed path expression.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Node path expression</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Time</span>
+ [const]</code>
+ &mdash; New value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Changed node
+<h3 class="iledocs-procedure-header"><a name="proc_jx_setTimeStamp">jx_setTimeStamp</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_setTimeStamp</span> (
+Pointer node, Pointer nodePath, Timestamp value)
+</code>
+<p>Set the passed value to the node pointed to by the passed path expression.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Node path expression</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Timestamp</span>
+ [const]</code>
+ &mdash; New value</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Changed node
+<h3 class="iledocs-procedure-header"><a name="proc_jx_setTraceProc">jx_setTraceProc</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_setTraceProc</span> (
+Pointer procedure)
+</code>
+<p>Sets the trace procedure which gets called on any interaction with an 
+object tree. 
+ 
+<br/><br/> 
+ 
+The passed procedure must implement the following interface: 
+<code> 
+dcl-pi *n; 
+text pointer value options(*string); 
+node pointer value; 
+end-pi; 
+</code></p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Trace procedure</li>
+</ol>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_setValue">jx_setValue</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_setValue</span> (
+Pointer node, Pointer nodePath, Pointer value, UnsignedInteger nodeType)
+</code>
+<p>Sets the passed value to the node pointed to by the passed path expression.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string]</code>
+ &mdash; Node path expression</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value, string, nopass]</code>
+ &mdash; Value (default: empty string)</li>
+<li>
+<code>
+<span class="iledocs-code-returnType">
+UnsignedInteger (5)</span>
+ [value, nopass]</code>
+ &mdash; Node type (see node type constants, default JX_UNKNOWN)</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Changed node
+<h3 class="iledocs-procedure-header"><a name="proc_jx_stream">jx_stream</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_stream</span> (
+Pointer node)
+</code>
+<p>Creates a stream object to be used by the noxDB serializers.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Stream object
+<h3 class="iledocs-procedure-header"><a name="proc_jx_successTrue">jx_successTrue</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_successTrue</span> (
+)
+</code>
+<p>Convenience function which returns a {"success":true} object.</p>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; New noxDB object tree with success attribute<h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">The caller of this procedure needs to take care of freeing the resources of the returned noxDB object tree by calling <em>jx_close(rootNode)</em>.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_traceSetId">jx_traceSetId</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+void
+</span>
+<span class="iledocs-code-name">jx_traceSetId</span> (
+Integer traceId)
+</code>
+<p>Sets a trace id at the current connection which will be added to the trace 
+statements in the trace table.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Integer (20)</span>
+ [value]</code>
+ &mdash; Trace id</li>
+</ol>
+
+
+</div>
+</div>

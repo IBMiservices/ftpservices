@@ -1,0 +1,63 @@
+{
+    "project" : "ftpUtils",
+    "title" : "ftpUtils - Ftp service utilities for an easy way",
+    "output" : { "path" : "pages-ftpServices-html" , "suffix" : "html"},
+    "overview" : ["index", "index_json", "page"], 
+    "source" : "file://../SOURCES/FTPIN.RPGLE",
+    "templates": { "path" : "templates-html" },
+    "sections" : [
+        {
+            "id" : "basics",
+            "name" : "Basics",
+            "order" : 1,
+            "default" : true,
+            "descriptionAsHeader" : true
+        },
+        {
+            "id" : "constants",
+            "name" : "Constants",
+            "startsWith" : "JX_",
+            "order" : 2
+        },
+        {
+            "id" : "variables",
+            "name" : "Variables",
+            "symbols" : [
+                "jx_DelimiterDS",
+                "jx_iterator"
+            ],
+            "order" : 3
+        },
+        {
+            "id" : "serializer",
+            "name" : "Serializer",
+            "symbols" : [
+                "jx_asJsonText",
+                "jx_asJsonTextMem",
+                "jx_asXmlText",
+                "jx_asXmlTextMem",
+                "jx_writeJsonStmf",
+                "jx_writeXmlStmf",
+                "jx_writeCsvStmf"
+            ],
+            "order" : 4
+        },
+        {
+            "id" : "sql",
+            "name" : "SQL",
+            "startsWith" : "jx_sql",
+            "order" : 5
+        },
+        {
+            "id" : "data-bif",
+            "name" : "Generator and Parser",
+            "symbols" : [
+                "jx_dataGen",
+                "jx_dataInto"
+            ],
+            "order" : 6
+        }
+    
+    ]
+}
+

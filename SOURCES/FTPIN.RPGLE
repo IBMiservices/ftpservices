@@ -1,4 +1,15 @@
 **FREE
+///
+// FTPIN.RPGLE
+// This module contains the implementation of populating FTP scripts in the FTP IN file member.  
+// It is used to generate FTP commands for file transfer operations.
+// Parameters:
+//   USER: User ID for FTP login
+//   MDP: Password for FTP login
+//   Nom_Objet: Name of the object to be transferred
+//   CHEMIN_origine: Source path of the file to be transferred
+//   CHEMIN_destination: Destination path on the FTP server
+///
 ctl-opt nomain;
 
 dcl-f ftpcmd usage(*output) rename(ftpcmd:ftpcmdf) usropn;

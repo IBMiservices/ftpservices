@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="../css/iledocs.css" />
+
+<div class="iledocs">
+    <% if (overview.includes("page") && sections.length > 1) { %>
+        <div class="iledocs-page-toc">
+            <%- include('page/sections.ejs'); %>
+        </div>
+        <div class="iledocs-toc-gap">&nbsp;</div>
+    <% } %>
+
+    <div class="iledocs-page">
+        <h2>Variables</h2>
+
+        <% if (section.config.descriptionAsHeader && section.description) { %>
+        <%- section.description %>
+        <% } else if (section.header) { %>
+        <%- section.header %>
+        <% } %>
+
+        <% if (section.variables.length > 0) { %>
+        <%- include('page/variables.ejs'); %>
+        <% } %>
+
+    </div>
+</div>

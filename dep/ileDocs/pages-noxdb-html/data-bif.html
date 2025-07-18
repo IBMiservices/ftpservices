@@ -1,0 +1,98 @@
+<link rel="stylesheet" href="../css/iledocs.css" />
+<div class="iledocs">
+
+<div class="iledocs-page-toc">
+<h3>Sections</h3>
+<ol>
+<li><a href="basics.html">Basics</a></li>
+<li><a href="constants.html">Constants</a></li>
+<li><a href="variables.html">Variables</a></li>
+<li><a href="serializer.html">Serializer</a></li>
+<li><a href="sql.html">SQL</a></li>
+<li><a href="data-bif.html">Generator and Parser</a></li>
+</ol>
+</div>
+<div class="iledocs-toc-gap">&nbsp;</div>
+
+<div class="iledocs-page">
+<h2>Generator and Parser</h2>
+
+
+
+
+<h3>Procedures</h3>
+<table class="iledocs-table">
+
+<tr>
+<td><a href="#proc_jx_dataGen">jx_dataGen</a></td><td>Data-Gen Generator</td>
+</tr>
+
+<tr>
+<td><a href="#proc_jx_dataInto">jx_dataInto</a></td><td>Data-Into Parser</td>
+</tr>
+
+</table>
+<hr/>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_dataGen">jx_dataGen</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_dataGen</span> (
+Pointer node)
+</code>
+<p>This implementation of a <em>data-gen</em> generator takes a data structure 
+and maps it to a noxDB object tree. The noxDB object tree will be created by 
+this function an does not need to exist.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+</code>
+ &mdash; noxDB object tree (output parameter)</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Procedure pointer of the data-gen generator function<h4 class="iledocs-procedure-subheader">Info</h4>
+<div class="iledocs-box iledocs-info">The noxDB object tree returned by this procedure through the output parameter needs to be freed by calling <em>jx_close(node)</em> by the user of this function.</div>
+
+<h3 class="iledocs-procedure-header"><a name="proc_jx_dataInto">jx_dataInto</a></h3>
+<code class="iledocs-code">
+<span class="iledocs-code-returnType">
+Pointer</span>
+<span class="iledocs-code-name">jx_dataInto</span> (
+Pointer node)
+</code>
+<p>This implemenation of a <em>data-into</em> parser takes a noxDB object tree 
+and maps it to a data structure.</p>
+
+<h4 class="iledocs-procedure-subheader">Parameters</h4>
+<ol class="iledocs-list">
+<li>
+<code>
+<span class="iledocs-code-returnType">
+Pointer</span>
+ [value]</code>
+ &mdash; Node to be mapped to a data structure</li>
+</ol>
+
+<h4 class="iledocs-procedure-subheader">Return Value</h4>
+<code>
+<span class="iledocs-code-returnType">
+Pointer
+
+</span>
+</code>
+ &mdash; Procedure pointer of the data-into parser
+
+</div>
+</div>
