@@ -1,13 +1,9 @@
 {
-   "dependencies": {
-     "messageutils": {
-       "url": "https://github.com/IBMiservices/messageutils.git",
-       "ref": "1-classe-message"
-     },
-     "API": {
-       "url": "https://github.com/IBMiservices/API.git",
-       "ref": "main"
-     }
+    "dependencies": {
+      "ileDocs": {
+        "url": "https://bitbucket.org/m1hael/iledocs-page-builder.git",
+        "ref": "master"  
    }
- }
+  }
+}
  
