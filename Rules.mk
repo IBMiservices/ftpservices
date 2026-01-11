@@ -1,1 +1,1 @@
-SUBDIRS = SOURCES
+SUBDIRS = SOURCES dep/logfori/qrpglesrc

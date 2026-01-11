@@ -1,0 +1,174 @@
+2026-01-11 08:48:24,713 - INFO - ======================================================================
+2026-01-11 08:48:24,714 - INFO - Démarrage de l'installation des dépendances IBM i
+2026-01-11 08:48:24,714 - INFO - ======================================================================
+2026-01-11 08:48:24,720 - INFO - ✓ Fichier dependencies.json chargé
+2026-01-11 08:48:25,028 - INFO - ✓ Schéma JSON validé avec succès
+2026-01-11 08:48:25,029 - INFO - Répertoire cible: dep
+2026-01-11 08:48:25,029 - INFO - Vérification des dépendances circulaires...
+2026-01-11 08:48:25,030 - INFO - ✓ Aucune dépendance circulaire détectée
+2026-01-11 08:48:25,031 - INFO - 
+──────────────────────────────────────────────────────────────────────
+2026-01-11 08:48:25,032 - INFO - Traitement de la dépendance: example-library
+2026-01-11 08:48:25,033 - INFO - ──────────────────────────────────────────────────────────────────────
+2026-01-11 08:48:25,035 - INFO - Clonage de example-library depuis https://github.com/IBMiservices/logfori.git...
+2026-01-11 08:48:26,139 - INFO - ✓ example-library cloné avec succès
+2026-01-11 08:48:26,140 - INFO - Basculer vers la référence v1.0.0 pour example-library...
+2026-01-11 08:48:26,238 - INFO - ✓ Référence v1.0.0 appliquée
+2026-01-11 08:48:26,239 - INFO - ✓ example-library est prêt
+
+2026-01-11 08:48:26,239 - INFO - Suppression du dossier .git pour example-library...
+2026-01-11 08:48:26,263 - INFO - 
+──────────────────────────────────────────────────────────────────────
+2026-01-11 08:48:26,264 - INFO - Mise à jour des fichiers de build
+2026-01-11 08:48:26,265 - INFO - ──────────────────────────────────────────────────────────────────────
+2026-01-11 08:48:26,274 - INFO - ✓ 5 fichiers Rules.mk créés
+2026-01-11 08:48:26,296 - INFO - ✓ Fichier Rules.mk mis à jour avec 1 sous-répertoires
+2026-01-11 08:48:26,298 - ERROR - 
+✗ Erreur fatale: [Errno 2] No such file or directory: 'D:\\Data\\OneDrive - ista\\Documents\\Projets\\Dépôts perso\\ftpservices\\.vscode-deps\\iproj.json'
+Traceback (most recent call last):
+  File "D:\Data\OneDrive - ista\Documents\Projets\Dépôts perso\ftpservices\.vscode-deps\install_deps_v2.py", line 444, in main
+    success = install_dependencies(dependencies_file, base_dir, project_root, iproj_path)
+  File "D:\Data\OneDrive - ista\Documents\Projets\Dépôts perso\ftpservices\.vscode-deps\install_deps_v2.py", line 419, in install_dependencies
+    update_include_path(iproj_path, base_dir)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Data\OneDrive - ista\Documents\Projets\Dépôts perso\ftpservices\.vscode-deps\install_deps_v2.py", line 305, in update_include_path
+    with open(iproj_path, "r") as f:
+         ~~~~^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'D:\\Data\\OneDrive - ista\\Documents\\Projets\\Dépôts perso\\ftpservices\\.vscode-deps\\iproj.json'
+2026-01-11 08:49:45,557 - INFO - ======================================================================
+2026-01-11 08:49:45,558 - INFO - Démarrage de l'installation des dépendances IBM i
+2026-01-11 08:49:45,558 - INFO - ======================================================================
+2026-01-11 08:49:45,559 - INFO - ✓ Fichier dependencies.json chargé
+2026-01-11 08:49:47,348 - INFO - ✓ Schéma JSON validé avec succès
+2026-01-11 08:49:47,372 - INFO - Répertoire cible: dep
+2026-01-11 08:49:47,373 - INFO - Vérification des dépendances circulaires...
+2026-01-11 08:49:47,374 - INFO - ✓ Aucune dépendance circulaire détectée
+2026-01-11 08:49:47,375 - INFO - 
+──────────────────────────────────────────────────────────────────────
+2026-01-11 08:49:47,376 - INFO - Traitement de la dépendance: example-library
+2026-01-11 08:49:47,377 - INFO - ──────────────────────────────────────────────────────────────────────
+2026-01-11 08:49:47,383 - INFO - Clonage de example-library depuis https://github.com/IBMiservices/logfori.git...
+2026-01-11 08:49:50,167 - INFO - ✓ example-library cloné avec succès
+2026-01-11 08:49:50,332 - INFO - Basculer vers la référence v1.0.0 pour example-library...
+2026-01-11 08:49:50,675 - INFO - ✓ Référence v1.0.0 appliquée
+2026-01-11 08:49:50,676 - INFO - ✓ example-library est prêt
+
+2026-01-11 08:49:50,677 - INFO - Suppression du dossier .git pour example-library...
+2026-01-11 08:49:50,709 - INFO - 
+──────────────────────────────────────────────────────────────────────
+2026-01-11 08:49:50,721 - INFO - Mise à jour des fichiers de build
+2026-01-11 08:49:50,721 - INFO - ──────────────────────────────────────────────────────────────────────
+2026-01-11 08:49:50,727 - INFO - ✓ 5 fichiers Rules.mk créés
+2026-01-11 08:49:50,759 - INFO - ✓ Fichier Rules.mk mis à jour avec 1 sous-répertoires
+2026-01-11 08:49:50,761 - ERROR - 
+✗ Erreur fatale: [Errno 2] No such file or directory: 'D:\\Data\\OneDrive - ista\\Documents\\Projets\\Dépôts perso\\ftpservices\\.vscode-deps\\iproj.json'
+Traceback (most recent call last):
+  File "D:\Data\OneDrive - ista\Documents\Projets\Dépôts perso\ftpservices\.vscode-deps\install_deps_v2.py", line 444, in main
+    success = install_dependencies(dependencies_file, base_dir, project_root, iproj_path)
+  File "D:\Data\OneDrive - ista\Documents\Projets\Dépôts perso\ftpservices\.vscode-deps\install_deps_v2.py", line 419, in install_dependencies
+    update_include_path(iproj_path, base_dir)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Data\OneDrive - ista\Documents\Projets\Dépôts perso\ftpservices\.vscode-deps\install_deps_v2.py", line 305, in update_include_path
+    with open(iproj_path, "r") as f:
+         ~~~~^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'D:\\Data\\OneDrive - ista\\Documents\\Projets\\Dépôts perso\\ftpservices\\.vscode-deps\\iproj.json'
+2026-01-11 08:52:21,859 - INFO - ======================================================================
+2026-01-11 08:52:21,863 - INFO - Démarrage de l'installation des dépendances IBM i
+2026-01-11 08:52:21,864 - INFO - ======================================================================
+2026-01-11 08:52:21,902 - INFO - ✓ Fichier D:\Data\OneDrive - ista\Documents\Projets\Dépôts perso\ftpservices\dependencies.json chargé
+2026-01-11 08:52:22,725 - INFO - ✓ Schéma JSON validé avec succès
+2026-01-11 08:52:22,726 - INFO - Répertoire cible: dep
+2026-01-11 08:52:22,727 - INFO - Vérification des dépendances circulaires...
+2026-01-11 08:52:22,727 - INFO - ✓ Aucune dépendance circulaire détectée
+2026-01-11 08:52:22,728 - INFO - 
+──────────────────────────────────────────────────────────────────────
+2026-01-11 08:52:22,729 - INFO - Traitement de la dépendance: example-library
+2026-01-11 08:52:22,729 - INFO - ──────────────────────────────────────────────────────────────────────
+2026-01-11 08:52:22,730 - INFO - Suppression du dossier existant pour example-library...
+2026-01-11 08:52:22,787 - INFO - ✓ Dossier existant supprimé pour example-library
+2026-01-11 08:52:22,799 - INFO - Clonage de example-library depuis https://github.com/IBMiservices/logfori.git...
+2026-01-11 08:52:24,330 - INFO - ✓ example-library cloné avec succès
+2026-01-11 08:52:24,330 - INFO - Basculer vers la référence v1.0.0 pour example-library...
+2026-01-11 08:52:24,471 - INFO - ✓ Référence v1.0.0 appliquée
+2026-01-11 08:52:24,473 - INFO - ✓ example-library est prêt
+
+2026-01-11 08:52:24,473 - INFO - Suppression du dossier .git pour example-library...
+2026-01-11 08:52:24,497 - INFO - 
+──────────────────────────────────────────────────────────────────────
+2026-01-11 08:52:24,498 - INFO - Mise à jour des fichiers de build
+2026-01-11 08:52:24,499 - INFO - ──────────────────────────────────────────────────────────────────────
+2026-01-11 08:52:24,503 - INFO - ✓ 4 fichiers Rules.mk créés
+2026-01-11 08:52:24,535 - INFO - ✓ Fichier Rules.mk mis à jour avec 2 sous-répertoires
+2026-01-11 08:52:24,560 - INFO - ✓ Fichier iproj.json mis à jour avec 1 nouveaux chemins d'inclusion
+2026-01-11 08:52:24,562 - INFO - 
+======================================================================
+2026-01-11 08:52:24,563 - INFO - Installation terminée
+2026-01-11 08:52:24,564 - INFO - ======================================================================
+2026-01-11 08:52:24,564 - INFO - ✓ Dépendances installées avec succès: 1
+2026-01-11 08:52:24,564 - INFO - Total de dépendances traitées: 1
+2026-01-11 08:52:24,565 - INFO - ======================================================================
+2026-01-11 08:57:07,008 - INFO - ======================================================================
+2026-01-11 08:57:07,008 - INFO - Démarrage de l'installation des dépendances IBM i
+2026-01-11 08:57:07,008 - INFO - ======================================================================
+2026-01-11 08:57:07,009 - INFO - ✓ Fichier D:\Data\OneDrive - ista\Documents\Projets\Dépôts perso\ftpservices\dependencies.json chargé
+2026-01-11 08:57:07,227 - INFO - ✓ Schéma JSON validé avec succès
+2026-01-11 08:57:07,227 - INFO - Répertoire cible: dep
+2026-01-11 08:57:07,227 - INFO - Vérification des dépendances circulaires...
+2026-01-11 08:57:07,227 - INFO - ✓ Aucune dépendance circulaire détectée
+2026-01-11 08:57:07,228 - INFO - 
+──────────────────────────────────────────────────────────────────────
+2026-01-11 08:57:07,228 - INFO - Traitement de la dépendance: example-library
+2026-01-11 08:57:07,228 - INFO - ──────────────────────────────────────────────────────────────────────
+2026-01-11 08:57:07,229 - INFO - Clonage de example-library depuis https://github.com/IBMiservices/logfori.git...
+2026-01-11 08:57:08,237 - INFO - ✓ example-library cloné avec succès
+2026-01-11 08:57:08,238 - INFO - Basculer vers la référence v1.0.0 pour example-library...
+2026-01-11 08:57:08,363 - INFO - ✓ Référence v1.0.0 appliquée
+2026-01-11 08:57:08,363 - INFO - ✓ example-library est prêt
+
+2026-01-11 08:57:08,363 - INFO - Suppression du dossier .git pour example-library...
+2026-01-11 08:57:08,388 - INFO - 
+──────────────────────────────────────────────────────────────────────
+2026-01-11 08:57:08,389 - INFO - Mise à jour des fichiers de build
+2026-01-11 08:57:08,389 - INFO - ──────────────────────────────────────────────────────────────────────
+2026-01-11 08:57:08,393 - INFO - ✓ 4 fichiers Rules.mk créés
+2026-01-11 08:57:08,422 - INFO - ✓ Fichier Rules.mk mis à jour avec 2 sous-répertoires
+2026-01-11 08:57:08,445 - INFO - 
+======================================================================
+2026-01-11 08:57:08,445 - INFO - Installation terminée
+2026-01-11 08:57:08,446 - INFO - ======================================================================
+2026-01-11 08:57:08,446 - INFO - ✓ Dépendances installées avec succès: 1
+2026-01-11 08:57:08,447 - INFO - Total de dépendances traitées: 1
+2026-01-11 08:57:08,473 - INFO - ======================================================================
+2026-01-11 08:57:27,607 - INFO - ======================================================================
+2026-01-11 08:57:27,607 - INFO - Démarrage de l'installation des dépendances IBM i
+2026-01-11 08:57:27,608 - INFO - ======================================================================
+2026-01-11 08:57:27,631 - INFO - ✓ Fichier D:\Data\OneDrive - ista\Documents\Projets\Dépôts perso\ftpservices\dependencies.json chargé
+2026-01-11 08:57:27,916 - INFO - ✓ Schéma JSON validé avec succès
+2026-01-11 08:57:27,916 - INFO - Répertoire cible: dep
+2026-01-11 08:57:27,917 - INFO - Vérification des dépendances circulaires...
+2026-01-11 08:57:27,917 - INFO - ✓ Aucune dépendance circulaire détectée
+2026-01-11 08:57:27,918 - INFO - 
+──────────────────────────────────────────────────────────────────────
+2026-01-11 08:57:27,919 - INFO - Traitement de la dépendance: logfori
+2026-01-11 08:57:27,919 - INFO - ──────────────────────────────────────────────────────────────────────
+2026-01-11 08:57:27,919 - INFO - Clonage de logfori depuis https://github.com/IBMiservices/logfori.git...
+2026-01-11 08:57:29,563 - INFO - ✓ logfori cloné avec succès
+2026-01-11 08:57:29,567 - INFO - Basculer vers la référence v1.0.0 pour logfori...
+2026-01-11 08:57:29,903 - INFO - ✓ Référence v1.0.0 appliquée
+2026-01-11 08:57:29,922 - INFO - ✓ logfori est prêt
+
+2026-01-11 08:57:29,923 - INFO - Suppression du dossier .git pour logfori...
+2026-01-11 08:57:29,994 - INFO - 
+──────────────────────────────────────────────────────────────────────
+2026-01-11 08:57:30,000 - INFO - Mise à jour des fichiers de build
+2026-01-11 08:57:30,000 - INFO - ──────────────────────────────────────────────────────────────────────
+2026-01-11 08:57:30,004 - INFO - ✓ 5 fichiers Rules.mk créés
+2026-01-11 08:57:30,009 - INFO - ✓ Fichier Rules.mk mis à jour avec 3 sous-répertoires
+2026-01-11 08:57:30,019 - INFO - ✓ Fichier iproj.json mis à jour avec 1 nouveaux chemins d'inclusion
+2026-01-11 08:57:30,022 - INFO - 
+======================================================================
+2026-01-11 08:57:30,023 - INFO - Installation terminée
+2026-01-11 08:57:30,024 - INFO - ======================================================================
+2026-01-11 08:57:30,034 - INFO - ✓ Dépendances installées avec succès: 1
+2026-01-11 08:57:30,066 - INFO - Total de dépendances traitées: 1
+2026-01-11 08:57:30,103 - INFO - ======================================================================
